@@ -20,7 +20,7 @@ if __name__ == "__main__":
     antenna_freqs = np.unique(antenna_map) 
     antenna_freqs = np.delete(antenna_freqs, np.where(antenna_freqs == "."))
 
-    unique_antinodes = set()
+    part1_antinodes = part2_antinodes = set()
     for freq in antenna_freqs:
         antenna_locs = np.argwhere(antenna_map == freq)
         antenna_pairs = combinations(antenna_locs, 2)
@@ -29,19 +29,12 @@ if __name__ == "__main__":
             antinode1 = tuple(pair[0] + difference_vector)
             antinode2 = tuple(pair[1] - difference_vector)
             if check_in_bounds(antinode1, antenna_map.shape):
-                unique_antinodes.add(antinode1)
+                part1_antinodes.add(antinode1)
             if check_in_bounds(antinode2, antenna_map.shape):
-                unique_antinodes.add(antinode2)
+                part1_antinodes.add(antinode2)
 
-    print("Part 1:", len(unique_antinodes))
+            part2_antinodes = part2_antinodes.union(calculate_antinodes(pair[0], difference_vector))
+            part2_antinodes = part2_antinodes.union(calculate_antinodes(pair[1], -1 * difference_vector))
 
-    unique_antinodes = set()
-    for freq in antenna_freqs:
-        antenna_locs = np.argwhere(antenna_map == freq)
-        antenna_pairs = combinations(antenna_locs, 2)
-        for pair in antenna_pairs:
-            difference_vector = pair[0] - pair[1]
-            unique_antinodes = unique_antinodes.union(calculate_antinodes(pair[0], difference_vector))
-            unique_antinodes = unique_antinodes.union(calculate_antinodes(pair[1], -1 * difference_vector))
-
-    print("Part 2:", len(unique_antinodes))
+    print("Part 1:", len(part1_antinodes))
+    print("Part 2:", len(part2_antinodes))
