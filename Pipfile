@@ -4,11 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-jupyter = "*"
-jupyterlab = "*"
 numpy = "*"
 
 [dev-packages]
+jupyter = "*"
+jupyterlab = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.12"
